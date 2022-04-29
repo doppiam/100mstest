@@ -1,14 +1,19 @@
 import {
+  HMSPeer,
   selectScreenShareByPeerID,
   useHMSStore,
   useVideo,
 } from '@100mslive/react-sdk';
 
-function ScreenShare({peer}) {
+interface ScreenShareProps {
+  peer: HMSPeer;
+}
+
+function ScreenShare({peer}: ScreenShareProps) {
   const screenshareVideoTrack = useHMSStore(selectScreenShareByPeerID(peer.id));
 
   const {videoRef} = useVideo({
-    trackId: screenshareVideoTrack.id,
+    trackId: screenshareVideoTrack ? screenshareVideoTrack.id : undefined,
   });
 
   return (
@@ -21,7 +26,7 @@ function ScreenShare({peer}) {
         playsInline
       />
       <div className="peer-name">
-        {peer.name} {peer.isLocal ? '(You)' : ''}
+        {peer.name} {peer.isLocal ? '(You)' : ''} sta presentando
       </div>
     </div>
   );

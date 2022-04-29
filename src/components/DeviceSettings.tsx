@@ -1,7 +1,5 @@
 import {
   selectDevices,
-  selectIsLocalScreenShared,
-  selectLocalMediaSettings,
   useAVToggle,
   useHMSActions,
   useHMSStore,
@@ -17,7 +15,7 @@ const DeviceSettings = () => {
   const devices = useHMSStore(selectDevices);
 
   // {audioInputDeviceId, audioOutputDeviceId, videoInputDeviceId}
-  const selected = useHMSStore(selectLocalMediaSettings);
+  // const selected = useHMSStore(selectLocalMediaSettings);
 
   // show user a settings component to manually choose device
   // The following selected devices can be obtained when changed from your UI.

@@ -11,7 +11,19 @@ import {useState} from 'react';
 import Peer from './Peer';
 import DeviceSettings from './DeviceSettings';
 
-const Preview = () => {
+interface PreviewProps {
+  isAudioMuted?: boolean;
+  isVideoMuted?: boolean;
+  captureNetworkQualityInPreview?: boolean;
+  rememberDeviceSelection?: boolean;
+}
+
+const Preview = ({
+  isAudioMuted,
+  isVideoMuted,
+  captureNetworkQualityInPreview,
+  rememberDeviceSelection,
+}: PreviewProps) => {
   const [name, setName] = useState('');
   const hmsActions = useHMSActions();
   const {isLocalAudioEnabled, isLocalVideoEnabled} = useAVToggle();
@@ -25,11 +37,11 @@ const Preview = () => {
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2Nlc3Nfa2V5IjoiNjI2OTQ0ODdmZjY4OGMwMzdhMzdlZTVmIiwicm9vbV9pZCI6IjYyNmFiYzNkZmY2ODhjMDM3YTM4MGEwYSIsInVzZXJfaWQiOiJvdW5jdWxkeSIsInJvbGUiOiJndWVzdCIsImp0aSI6ImI5NTgzMDY3LTU2OTktNDExNS05NDIyLTZhMTc2NjI4MjVlNiIsInR5cGUiOiJhcHAiLCJ2ZXJzaW9uIjoyLCJleHAiOjE2NTEzMDY5NjN9.9o4EUX9KvQ5XsBaOa_RLk5TTxJRFoa0ByXe34YbE5UM', // client-side token generated from your token service
       settings: {
         // initial states
-        isAudioMuted: false,
-        isVideoMuted: false,
+        isAudioMuted: isAudioMuted || false,
+        isVideoMuted: isVideoMuted || false,
       },
-      rememberDeviceSelection: true, // remember manual device change
-      captureNetworkQualityInPreview: true, // whether to measure network score in preview
+      rememberDeviceSelection: rememberDeviceSelection || true, // remember manual device change
+      captureNetworkQualityInPreview: captureNetworkQualityInPreview || true, // whether to measure network score in preview
     };
     await hmsActions.preview(config);
   };

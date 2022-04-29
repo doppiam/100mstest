@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {useHMSActions} from '@100mslive/react-sdk';
 
 function JoinForm() {
@@ -7,14 +7,14 @@ function JoinForm() {
     name: '',
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValues((prevValues) => ({
       ...prevValues,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     hmsActions.join({
       userName: inputValues.name,

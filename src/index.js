@@ -1,13 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {HMSRoomProvider} from '@100mslive/react-sdk';
+import GlobalStyle from './config/globalStyle';
+import myTheme from './config/theme';
+import App from './App';
+import {ThemeProvider} from 'styled-components';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <HMSRoomProvider>
+      <ThemeProvider theme={myTheme}>
+        <GlobalStyle />
+        <App />
+      </ThemeProvider>
+    </HMSRoomProvider>
   </React.StrictMode>
 );
 

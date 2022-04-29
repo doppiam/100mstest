@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import JoinForm from './components/JoinForm';
+import {useEffect} from 'react';
+import {
+  selectIsConnectedToRoom,
+  selectIsSomeoneScreenSharing,
+  selectPeerCount,
+  useHMSActions,
+  useHMSStore,
+} from '@100mslive/react-sdk';
+import Footer from './components/Footer';
+import Conference from './components/Conference';
 
-function App() {
+export default function App() {
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
+  const hmsActions = useHMSActions();
+  const count = useHMSStore(selectPeerCount);
+  const screenshareOn = useHMSStore(selectIsSomeoneScreenSharing);
+
+  useEffect(() => {
+    window.onunload = () => {
+      if (isConnected) {
+        hmsActions.leave();
+      }
+    };
+  }, [hmsActions, isConnected]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {isConnected ? (
+        <>
+          <h3>Connessi: {count}</h3>
+          {screenshareOn && <h3>Screenshare attivo</h3>}
+          <Conference />
+          <Footer />
+        </>
+      ) : (
+        <JoinForm />
+      )}
     </div>
   );
 }
-
-export default App;

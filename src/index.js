@@ -6,6 +6,7 @@ import GlobalStyle from './config/globalStyle';
 import myTheme from './config/theme';
 import App from './App';
 import {ThemeProvider} from 'styled-components';
+import {Toaster} from 'react-hot-toast';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,6 +15,7 @@ root.render(
       <ThemeProvider theme={myTheme}>
         <GlobalStyle />
         <App />
+        <Toaster />
       </ThemeProvider>
     </HMSRoomProvider>
   </React.StrictMode>

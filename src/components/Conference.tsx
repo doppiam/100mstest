@@ -4,7 +4,7 @@ import {
   selectPeerScreenSharing,
   useHMSStore,
 } from '@100mslive/react-sdk';
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import useGroupedParticipants from '../hooks/useGroupedParticipants';
 import {
   Grid,
@@ -18,8 +18,12 @@ import Peer from './Peer';
 import ScreenShare from './ScreenShare';
 import GroupGridProvider from './Grid/GroupGridProvider';
 import {Page, PageInside} from './PageElements';
+import useNotifications from '../hooks/useNotifications';
+import ChatContainer from './ChatContainer';
+import useChat from '../hooks/useChat';
 
 const Conference = () => {
+  const [showChat, setShowChat] = useState(true);
   // const remotes = useHMSStore(selectRemotePeers);
   // const local = useHMSStore(selectLocalPeer);
   const presenter = useHMSStore(selectPeerScreenSharing);
@@ -32,9 +36,14 @@ const Conference = () => {
 
   const hasSidebar = false;
 
+  useNotifications();
+  const {messages, sendMessage} = useChat();
+
+  const toggleChat = useCallback(() => setShowChat(!showChat), [showChat]);
+
   return (
     <Page>
-      <PageInside shortRight={false} shortLeft={false}>
+      <PageInside shortRight={true} shortLeft={false}>
         <Grid paddingBottom={media.length > 0}>
           {media.length > 0 && (
             <Media>
@@ -90,6 +99,12 @@ const Conference = () => {
           </Participants>
         </Grid>
       </PageInside>
+      <ChatContainer
+        active={showChat}
+        handleShowChat={toggleChat}
+        messages={messages}
+        onSendMessage={sendMessage}
+      />
     </Page>
   );
 };

@@ -2,11 +2,15 @@ import {
   selectDevices,
   selectIsLocalScreenShared,
   selectLocalMediaSettings,
+  useAVToggle,
   useHMSActions,
   useHMSStore,
 } from '@100mslive/react-sdk';
 
 const DeviceSettings = () => {
+  const {isLocalAudioEnabled, isLocalVideoEnabled, toggleAudio, toggleVideo} =
+    useAVToggle();
+
   const hmsActions = useHMSActions();
 
   // {audioInput, audioOutput, videoInput}
@@ -14,22 +18,6 @@ const DeviceSettings = () => {
 
   // {audioInputDeviceId, audioOutputDeviceId, videoInputDeviceId}
   const selected = useHMSStore(selectLocalMediaSettings);
-
-  const amIScreenSharing = useHMSStore(selectIsLocalScreenShared);
-
-  console.log(devices, selected);
-
-  const shareScreen = async () => {
-    try {
-      await hmsActions.setScreenShareEnabled(true);
-    } catch (error) {
-      // an error will be thrown if user didn't give access to share screen
-    }
-  };
-
-  const stopShare = () => {
-    hmsActions.setScreenShareEnabled(false);
-  };
 
   // show user a settings component to manually choose device
   // The following selected devices can be obtained when changed from your UI.
@@ -43,6 +31,12 @@ const DeviceSettings = () => {
 
   return (
     <>
+      <button className="btn-control" onClick={toggleAudio}>
+        {isLocalAudioEnabled ? 'Mute' : 'Unmute'}
+      </button>
+      <button className="btn-control" onClick={toggleVideo}>
+        {isLocalVideoEnabled ? 'Hide' : 'Unhide'}
+      </button>
       <select
         onChange={(e) =>
           hmsActions.setAudioSettings({deviceId: e.target.value})
@@ -65,13 +59,6 @@ const DeviceSettings = () => {
           </option>
         ))}
       </select>
-
-      {!amIScreenSharing && (
-        <button onClick={() => shareScreen()}>Share Screen</button>
-      )}
-      {amIScreenSharing && (
-        <button onClick={() => stopShare()}>Stop Share Screen</button>
-      )}
     </>
   );
 };

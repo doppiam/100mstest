@@ -9,6 +9,7 @@ import {
 } from '@100mslive/react-sdk';
 import Footer from './components/Footer';
 import Conference from './components/Conference';
+import Preview from './components/Preview';
 
 export default function App() {
   const isConnected = useHMSStore(selectIsConnectedToRoom);
@@ -34,7 +35,7 @@ export default function App() {
           <Footer />
         </>
       ) : (
-        <JoinForm />
+        <Preview />
       )}
     </div>
   );

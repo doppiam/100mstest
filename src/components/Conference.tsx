@@ -78,7 +78,11 @@ const Conference = () => {
               <Novideo weight={onlyAudio.length}>
                 <WithoutVideoGrid videoCount={onlyAudio.length}>
                   {onlyAudio.map((p) => (
-                    <Peer key={p.id} peer={p} />
+                    <Peer
+                      key={p.id}
+                      peer={p}
+                      small={forceSmallBox ? onlyAudio.length : 1}
+                    />
                   ))}
                 </WithoutVideoGrid>
               </Novideo>
